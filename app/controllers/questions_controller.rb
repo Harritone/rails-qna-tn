@@ -1,8 +1,6 @@
 class QuestionsController < ApplicationController
-  # before_action :set_question, only: %i[show edit update destroy]
-  def index
-    @questions = Question.all
-  end
+  expose :questions, -> { Question.all }
+  expose :question
 
   def show
   end
@@ -14,9 +12,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
-    if @question.save
-      redirect_to @question
+    if question.save
+      redirect_to question
     else
       render :new
     end
@@ -36,12 +33,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
-  end
-
-  helper_method :question
 
   def question_params
     params.require(:question).permit(:title, :body)
