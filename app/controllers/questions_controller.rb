@@ -2,15 +2,6 @@ class QuestionsController < ApplicationController
   expose :questions, -> { Question.all }
   expose :question
 
-  def show
-  end
-
-  def new
-  end
-
-  def edit
-  end
-
   def create
     if question.save
       redirect_to question

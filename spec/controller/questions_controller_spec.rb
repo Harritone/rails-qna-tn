@@ -7,10 +7,6 @@ RSpec.describe QuestionsController, type: :controller do
     let(:questions) { create_list(:question, 3) }
     before { get :index }
 
-    it 'should populate an array of all questions' do
-      expect(assigns(:questions)).to match_array(questions)
-    end
-
     it 'should render index view' do
       expect(response).to render_template(:index)
     end
@@ -51,7 +47,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'should redirects to show' do
         subject
-        expect(response).to redirect_to(assigns(:question))
+        question = Question.first # as our db was empty before request
+        expect(response).to redirect_to(question)
       end
     end
 
@@ -74,11 +71,6 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attributes' do
       let(:valid_attributes) { { title: 'Updated title', body: 'Updated body' } }
       subject { patch :update, params: { id: question, question: valid_attributes } }
-
-      it 'should assign the requested question to @question' do
-        subject
-        expect(assigns(:question)).to eq(question)
-      end
 
       it 'should change question attributes' do
         subject
