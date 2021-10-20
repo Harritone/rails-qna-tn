@@ -5,6 +5,7 @@ ruby '2.7.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'decent_exposure', '~> 3.0'
+gem 'devise', '~> 4.8'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
@@ -23,11 +24,15 @@ group :development, :test do
 end
 
 group :development do
+  gem 'capybara', '~> 3.35', '>= 3.35.3'
   gem 'web-console', '>= 4.1.0'
   # gem 'rack-mini-profiler', '~> 2.0'
+  gem 'launchy', '~> 2.5'
   gem 'listen', '~> 3.3'
   gem 'rubocop', '~> 1.22', '>= 1.22.1', require: false
+  gem 'selenium-webdriver'
   gem 'spring'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
