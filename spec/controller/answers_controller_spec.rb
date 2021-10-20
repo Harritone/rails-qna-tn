@@ -22,7 +22,7 @@ RSpec.describe AnswersController, type: :controller do
     subject { post :create, params: invalid_params }
 
     it 'should not save anser to db' do
-      expect{subject}.not_to change{Answer.count}
+      expect{subject}.not_to change{question.answers.count}
     end
 
     it 'should re-render new' do
