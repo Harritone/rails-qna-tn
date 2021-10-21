@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can sign in', %q(
+feature 'Registered user can create question', %q(
   In order to get answer from a community
   As an authorized user
   I'd like to be able to ask the question

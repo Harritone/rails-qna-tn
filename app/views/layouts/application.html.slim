@@ -10,5 +10,6 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .container
+      = link_to 'Logout', destroy_user_session_path, method: :delete
       =flash_messages
       = yield

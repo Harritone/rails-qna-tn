@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :answer do
     sequence(:body) { |n| "My answer number #{n}" }
     association :question
+    association :user
 
     trait :invalid do
       body { nil }
