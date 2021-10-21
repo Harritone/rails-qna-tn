@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -21,22 +22,24 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new }
-
     it 'should render new view' do
+      login(user)
+      get :new
       expect(response).to render_template(:new)
     end
   end
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: question } }
-
     it 'should render show view' do
+      login(user)
+      get :edit, params: { id: question}
       expect(response).to render_template(:edit)
     end
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'With valid attributes' do
       let(:valid_params) { { question: attributes_for(:question) } }
       subject { post :create, params: valid_params }
@@ -68,6 +71,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       let(:valid_attributes) { { title: 'Updated title', body: 'Updated body' } }
       subject { patch :update, params: { id: question, question: valid_attributes } }
@@ -87,6 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       subject { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+
       it 'should not change question' do
         title = question.title
         body = question.body
@@ -104,6 +110,9 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     subject { delete :destroy, params: { id: question } }
+
+    before { login(user) }
+
     it 'should delete the question' do
       question
       expect { subject }.to change { Question.count }.by(-1)
