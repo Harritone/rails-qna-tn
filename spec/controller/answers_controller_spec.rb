@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user_id: user.id) }
+
+  before { login(user) }
 
   context 'with valid attributes' do
     let(:valid_params) { {answer: attributes_for(:answer), question_id: question.id } }
@@ -27,7 +30,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'should re-render new' do
       subject
-      expect(response).to render_template(:new)
+      expect(response).to render_template('questions/show')
     end
   end
 end
