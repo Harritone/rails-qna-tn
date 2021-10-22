@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
       answer.destroy
       flash[:alert] = 'Answer was removed'
     else
-      flash[:error] = 'You are not allowed to perform this action'
+      flash[:alert] = 'You are not allowed to perform this action'
     end
 
     redirect_to @answer.question

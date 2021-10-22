@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
 
   def author_of?(entity)
-    entity&.user_id == id
+    return false unless entity.respond_to?(:user_id)
+    entity.user_id == id
   end
 end

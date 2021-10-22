@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
       question.destroy
     redirect_to questions_path, notice: 'Question was removed'
     else
-      flash[:error] = 'You are not allowed to perform this action'
+      flash[:alert] = 'You are not allowed to perform this action'
       redirect_to questions_path
     end
   end

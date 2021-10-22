@@ -36,7 +36,6 @@ feature 'User can sign up', "
     end
 
     scenario 'with email already exists' do
-      # save_and_open_page
       fill_in 'Password',	             with: '123456'
       fill_in 'Password confirmation', with: '123456'
       click_on 'Sign up'

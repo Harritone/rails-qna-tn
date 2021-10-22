@@ -52,6 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
         subject
         question = Question.first # as our db was empty before request
         expect(response).to redirect_to(question)
+        expect(controller).to set_flash[:notice]
       end
     end
 
@@ -109,18 +110,36 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let(:another_user) { create(:user) }
     subject { delete :destroy, params: { id: question } }
-
     before { login(user) }
 
-    it 'should delete the question' do
-      question
-      expect { subject }.to change { Question.count }.by(-1)
+    context 'when author delete his question' do
+
+      it 'should delete the question' do
+        question
+        expect { subject }.to change { user.questions.count }.by(-1)
+      end
+
+      it 'should redirect to index' do
+        subject
+        expect(response).to redirect_to(questions_path)
+        expect(controller).to set_flash[:notice]
+      end
     end
 
-    it 'should redirect to index' do
-      subject
-      expect(response).to redirect_to(questions_path)
+    context 'when another user tries to delete the question' do
+      before { login(another_user) }
+      it 'should not delet the question' do
+        question
+        expect { subject }.not_to change { user.questions.count }
+      end
+
+      it 'should redirect ot index' do
+        subject
+        expect(response).to redirect_to(questions_path)
+        expect(controller).to set_flash[:alert]
+      end
     end
   end
 end
