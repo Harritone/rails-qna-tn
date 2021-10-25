@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user_id: user.id) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -21,22 +22,24 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new }
-
     it 'should render new view' do
+      login(user)
+      get :new
       expect(response).to render_template(:new)
     end
   end
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: question } }
-
     it 'should render show view' do
+      login(user)
+      get :edit, params: { id: question}
       expect(response).to render_template(:edit)
     end
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'With valid attributes' do
       let(:valid_params) { { question: attributes_for(:question) } }
       subject { post :create, params: valid_params }
@@ -49,6 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
         subject
         question = Question.first # as our db was empty before request
         expect(response).to redirect_to(question)
+        expect(controller).to set_flash[:notice]
       end
     end
 
@@ -68,6 +72,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       let(:valid_attributes) { { title: 'Updated title', body: 'Updated body' } }
       subject { patch :update, params: { id: question, question: valid_attributes } }
@@ -87,6 +93,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       subject { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+
       it 'should not change question' do
         title = question.title
         body = question.body
@@ -103,15 +110,36 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let(:another_user) { create(:user) }
     subject { delete :destroy, params: { id: question } }
-    it 'should delete the question' do
-      question
-      expect { subject }.to change { Question.count }.by(-1)
+    before { login(user) }
+
+    context 'when author delete his question' do
+
+      it 'should delete the question' do
+        question
+        expect { subject }.to change { user.questions.count }.by(-1)
+      end
+
+      it 'should redirect to index' do
+        subject
+        expect(response).to redirect_to(questions_path)
+        expect(controller).to set_flash[:notice]
+      end
     end
 
-    it 'should redirect to index' do
-      subject
-      expect(response).to redirect_to(questions_path)
+    context 'when another user tries to delete the question' do
+      before { login(another_user) }
+      it 'should not delet the question' do
+        question
+        expect { subject }.not_to change { user.questions.count }
+      end
+
+      it 'should redirect ot index' do
+        subject
+        expect(response).to redirect_to(questions_path)
+        expect(controller).to set_flash[:alert]
+      end
     end
   end
 end
