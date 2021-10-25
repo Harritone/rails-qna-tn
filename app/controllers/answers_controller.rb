@@ -2,13 +2,13 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
+    @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
 
-    if @answer.save
-      redirect_to question, notice: 'Answer was published.'
-    else
-      render 'questions/show'
-    end
+    # if @answer.save
+    #   redirect_to question, notice: 'Answer was published.'
+    # else
+    #   render 'questions/show'
+    # end
   end
 
   def destroy

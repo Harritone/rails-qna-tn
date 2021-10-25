@@ -7,8 +7,9 @@ p = question.body
 ul.answers
   = render question.answers
 
-= render 'shared/errors', resource: @answer
-= form_with model: [question, @answer], local: true do |f|
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [question, @answer], local: false do |f|
   .mb-3
     = f.label :body, 'Your answer', class: 'form-label'
     = f.text_area :body, rows: 10, class: 'form-control'
