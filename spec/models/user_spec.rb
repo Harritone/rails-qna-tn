@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
     let(:question) { create(:question, user: user) }
 
     it 'should return true if an enetety has user_id with id of given user' do
-      expect(user.author_of?(question)).to equal(true)
+      expect(user).to be_author_of(question)
     end
 
     it 'should return false if an enetety has user_id without id of given user' do
