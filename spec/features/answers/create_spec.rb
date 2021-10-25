@@ -13,11 +13,15 @@ feature 'User can add answer to qeustions', %q(
       login(user)
       visit question_path(question)
     end
+
     scenario 'publish answer' do
       fill_in 'Your answer', with: 'My awesome answer!'
       click_on 'Publish'
+      expect(current_path).to eq(question_path(question))
       expect(page).to have_content 'Answer was published.'
-      expect(page).to have_content 'My awesome answer!'
+      within '.answers' do
+        expect(page).to have_content 'My awesome answer!'
+      end
     end
 
     scenario 'publish invalid answer' do

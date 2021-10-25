@@ -4,11 +4,12 @@ p = question.body
 -if current_user&.author_of?(question)
   = link_to 'Remove question', question_path(question), method: :delete
 
-ul
+ul.answers
   = render question.answers
 
+= render 'shared/errors', resource: @answer
 = form_with model: [question, @answer], local: true do |f|
-  = render 'shared/errors', resource: @answer
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.submit 'Publish'
+  .mb-3
+    = f.label :body, 'Your answer', class: 'form-label'
+    = f.text_area :body, rows: 10, class: 'form-control'
+  = f.submit 'Publish', class: 'btn btn-primary'
