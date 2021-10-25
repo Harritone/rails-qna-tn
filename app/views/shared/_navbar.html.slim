@@ -1,0 +1,15 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
+  .container-fluid
+    = link_to 'QnA', root_path, class: 'navbar-brand'
+    button.navbar-toggler[type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"]
+      span.navbar-toggler-icon
+    #navbarText.collapse.navbar-collapse
+      ul.navbar-nav.ms-auto.mb-2.mb-lg-0
+        - if !user_signed_in?
+          li.navbar-item
+            = link_to t('.signup'), new_user_registration_path, class: 'nav-link'
+          li.navbar-item
+            = link_to t('.signin'),  new_user_session_path, class: 'nav-link'
+        - else
+          li.navbar-item
+            = link_to t('.logout'), destroy_user_session_path, method: :delete, class: 'nav-link'
