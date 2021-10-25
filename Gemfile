@@ -17,22 +17,21 @@ gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'capybara', '~> 3.35', '>= 3.35.3'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
 end
 
 group :development do
-  gem 'capybara', '~> 3.35', '>= 3.35.3'
   gem 'web-console', '>= 4.1.0'
   # gem 'rack-mini-profiler', '~> 2.0'
   gem 'launchy', '~> 2.5'
   gem 'listen', '~> 3.3'
   gem 'rubocop', '~> 1.22', '>= 1.22.1', require: false
-  gem 'selenium-webdriver'
   gem 'spring'
-  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
