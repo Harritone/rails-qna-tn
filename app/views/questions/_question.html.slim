@@ -14,4 +14,4 @@ p = question.body
       =f.text_area :body, rows: 10, class: 'form-control'
     =f.submit 'Save', class: 'btn btn-primary'
   .remove-question.my-2
-  = link_to 'Remove question', question_path(question), method: :delete, class: 'btn btn-sm btn-danger'
+  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delet-answer'

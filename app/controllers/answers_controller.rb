@@ -14,14 +14,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(answer)
-      answer.destroy
-      flash[:alert] = 'Answer was removed'
-    else
-      flash[:alert] = 'You are not allowed to perform this action'
-    end
+    return unless current_user.author_of?(answer)
 
-    redirect_to @answer.question
+    @question = answer.question
+    answer.destroy
   end
 
   private

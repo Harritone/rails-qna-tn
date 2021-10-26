@@ -11,24 +11,23 @@ feature 'Authorized user can remove their own answers', %q(
   given!(:answer) { create(:answer, question: question, user: user) }
   given(:another_user) { create(:user) }
 
-  scenario 'User can delete their own answer' do
+  scenario 'User can delete their own answer', js: :true do
     login(user)
     visit questions_path
     click_link question.title
     expect(page).to have_content answer.body
     click_on 'Remove answer'
-    expect(page).to have_content 'Answer was removed'
     expect(page).not_to have_content answer.body
   end
 
-  scenario 'Authorized user connot delete other\s answers' do
+  scenario 'Authorized user connot delete other\s answers', js: true do
     login(another_user)
     visit questions_path
     click_link question.title
     expect(page).not_to have_link 'Remove answer'
   end
 
-  scenario 'Unauthorized user cannot delete answers' do
+  scenario 'Unauthorized user cannot delete answers', js: true do
     visit questions_path
     click_link question.title
     expect(page).not_to have_link 'Remove answer'

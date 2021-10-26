@@ -39,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:answer) { create(:answer, user: user, question: question) }
-    subject { delete :destroy, params: { id: answer.id } }
+    subject { delete :destroy, params: { id: answer.id }, format: :js }
 
     context 'when author tries to delete his answer' do
       it 'should delete answer' do
@@ -49,8 +49,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'should redirect to related question' do
         subject
-        expect(response).to redirect_to(question_path(question))
-        expect(controller).to set_flash[:alert]
+        expect(response).to render_template(:destroy)
       end
     end
 
@@ -64,8 +63,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'should render create template' do
         subject
-        expect(response).to redirect_to(question_path(question))
-        expect(controller).to set_flash[:alert]
+        expect(response).to render_template(:destroy)
       end
     end
   end
