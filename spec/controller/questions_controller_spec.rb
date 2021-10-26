@@ -76,7 +76,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       let(:valid_attributes) { { title: 'Updated title', body: 'Updated body' } }
-      subject { patch :update, params: { id: question, question: valid_attributes } }
+      subject { patch :update, params: { id: question, question: valid_attributes }, format: :js }
 
       it 'should change question attributes' do
         subject
@@ -92,7 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      subject { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+      subject { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
       it 'should not change question' do
         title = question.title
@@ -104,7 +104,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
       it 'should re-render edit' do
         subject
-        expect(response).to render_template(:edit)
+        expect(response).to render_template(:update)
       end
     end
   end

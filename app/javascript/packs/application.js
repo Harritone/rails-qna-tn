@@ -10,6 +10,7 @@ import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap';
 import 'channels';
 require('../answers/answers');
+require('../questions/question');
 
 Rails.start();
 Turbolinks.start();
