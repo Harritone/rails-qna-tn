@@ -6,9 +6,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = answer
-    @answer.update(answer_params)
-    @question = @answer.question
+    if current_user.author_of?(answer)
+      @answer = answer
+      @answer.update(answer_params)
+      @question = @answer.question
+    end
   end
 
   def destroy

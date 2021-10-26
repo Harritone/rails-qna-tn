@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
   before { login(user) }
 
@@ -54,7 +55,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when another user tries to delete not his answer' do
-      let(:another_user) { create(:user) }
       before { login(another_user) }
 
       it 'should not delete answer' do
@@ -72,13 +72,12 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let(:answer) { create(:answer, user: user, question: question) }
+    subject { patch :update, params: { id: answer.id, answer: { body: 'Edited answer' } }, format: :js }
 
     context 'when author tries to update his answer' do
       before { login(user) }
 
       context 'with valid attributes' do
-        subject { patch :update, params: { id: answer.id, answer: { body: 'Edited answer' } }, format: :js }
-
         it 'should update answer' do
           subject
           answer.reload
@@ -102,6 +101,16 @@ RSpec.describe AnswersController, type: :controller do
           subject
           expect(response).to render_template(:update)
         end
+      end
+    end
+
+    context 'when non-author tries to delete answer' do
+      before { login(another_user) }
+
+      it 'should not update answer' do
+        answer.reload
+        expect { subject }.to_not change(answer, :body)
+        expect(answer.body).to_not eq('Edited answer')
       end
     end
   end

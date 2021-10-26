@@ -5,6 +5,9 @@ li= answer.body
   p
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
+  = content_tag(:div, class: "edit-answer-#{answer.id}-errors")
+    = render 'shared/errors', resource: @answer
+
   = form_with model: answer, class: 'd-none', 
   html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
     .mb-3 
