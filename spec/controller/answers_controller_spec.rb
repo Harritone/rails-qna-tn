@@ -11,7 +11,7 @@ RSpec.describe AnswersController, type: :controller do
       subject { post :create, params: valid_params, format: :js }
 
       it 'should save answer to db' do
-        expect{subject}.to change{question.answers.count}.by(1)
+        expect{ subject }.to change{ question.answers.count }.by(1)
       end
 
       it 'should redirect to assotiated question' do
@@ -29,7 +29,7 @@ RSpec.describe AnswersController, type: :controller do
         expect{subject}.not_to change{Answer.count}
       end
 
-      it 'should re-render new' do
+      it 'should re-render create' do
         subject
         expect(response).to render_template(:create)
       end
@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'when another user tries to delete not his anwer' do
+    context 'when another user tries to delete not his answer' do
       let(:another_user) { create(:user) }
       before { login(another_user) }
 
@@ -62,10 +62,46 @@ RSpec.describe AnswersController, type: :controller do
         expect{ subject }.not_to change{user.answers.count}
       end
 
-      it 'should redirect to related question' do
+      it 'should render create template' do
         subject
         expect(response).to redirect_to(question_path(question))
         expect(controller).to set_flash[:alert]
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let(:answer) { create(:answer, user: user, question: question) }
+
+    context 'when author tries to update his answer' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        subject { patch :update, params: { id: answer.id, answer: { body: 'Edited answer' } }, format: :js }
+
+        it 'should update answer' do
+          subject
+          answer.reload
+          expect(answer.body).to eq('Edited answer')
+        end
+
+        it 'should render update view' do
+          subject
+          expect(response).to render_template(:update)
+        end
+      end
+
+      context 'with invalid attributes' do
+        let(:subject) { patch :update, params: { id: answer.id, answer: { body: nil } }, format: :js }
+
+        it 'should not update answer' do
+          expect{ subject }.to_not change(answer, :body)
+        end
+
+        it 'should re-render update' do
+          subject
+          expect(response).to render_template(:update)
+        end
       end
     end
   end

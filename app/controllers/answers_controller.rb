@@ -3,12 +3,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
+  end
 
-    # if @answer.save
-    #   redirect_to question, notice: 'Answer was published.'
-    # else
-    #   render 'questions/show'
-    # end
+  def update
+    @answer = answer
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy

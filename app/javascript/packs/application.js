@@ -9,6 +9,7 @@ import * as ActiveStorage from '@rails/activestorage';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap';
 import 'channels';
+require('../answers/answers');
 
 Rails.start();
 Turbolinks.start();

@@ -14,7 +14,7 @@ feature 'Authorized user can remove their own answers', %q(
   scenario 'User can delete their own answer' do
     login(user)
     visit questions_path
-    click_link question.title 
+    click_link question.title
     expect(page).to have_content answer.body
     click_on 'Remove answer'
     expect(page).to have_content 'Answer was removed'
