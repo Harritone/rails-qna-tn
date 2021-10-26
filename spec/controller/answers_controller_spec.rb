@@ -112,4 +112,43 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #mark_best' do
+    let(:answer) { create(:answer, user: another_user, question: question) }
+    subject { patch :mark_best, params: { id: answer }, format: :js }
+    let(:another_user) { create(:user) }
+
+    context 'when author of the question marks answer as best' do
+      before { login(user) }
+
+      it 'should add to question best answer' do
+        subject
+        question.reload
+        expect(question.best_answer_id).to eq(answer.id)
+      end
+
+      it 'should re-render mark_best' do
+        subject
+        expect(response).to render_template(:mark_best)
+      end
+
+      it 'should remark another answer as best when best answer already exists' do
+        best_answer = create(:answer, question: question)
+        question.best_answer =  best_answer
+        question.save
+        subject
+        question.reload
+        expect(question.best_answer_id).to eq(answer.id)
+      end
+    end
+
+    context 'when not author marks answer as best' do
+      it 'should not mark answer as best' do
+        login(another_user)
+        subject
+        question.reload
+        expect(question.best_answer_id).to be_nil
+      end
+    end
+  end
 end

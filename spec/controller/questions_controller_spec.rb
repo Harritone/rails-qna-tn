@@ -115,7 +115,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'when author delete his question' do
-
       it 'should delete the question' do
         question
         expect { subject }.to change { user.questions.count }.by(-1)

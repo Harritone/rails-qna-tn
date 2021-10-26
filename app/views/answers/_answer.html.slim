@@ -1,17 +1,20 @@
-.answer id="answer-#{answer.id}"
-  li= answer.body
-  -if current_user&.author_of?(answer)
-    p
-      = link_to 'Remove answer', answer_path(answer), remote: true, method: :delete
-    p
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+ul.list-group
+  -if answer.id
+    .answer id="answer-#{answer.id}"
+      li.list-group-item
+        =answer.body
+        .actions
+          -if current_user&.author_of?(answer.question)
+            = link_to 'Best it!', "/answers/#{answer.id}/mark_best", class: 'btn btn-sm btn-success mr-1', remote: true, method: :patch
+          -if current_user&.author_of?(answer)
+            = link_to 'Remove answer', answer_path(answer), remote: true, method: :delete, class: 'btn btn-sm btn-danger mr-1'
+            = link_to 'Edit', '#', class: 'edit-answer-link btn btn-sm btn-info', data: { answer_id: answer.id }
 
-    = content_tag(:div, class: "edit-answer-#{answer.id}-errors")
-      = render 'shared/errors', resource: @answer
+            = content_tag(:div, class: "edit-answer-#{answer.id}-errors")
+              = render 'shared/errors', resource: @answer
 
-    = form_with model: answer, class: 'd-none', 
-    html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
-      .mb-3 
-        =f.label :body, 'Your answer', class: 'form-label'
-        =f.text_area :body, rows: 10, class: 'form-control'
-      = f.submit 'Save', class: 'btn btn-primary'
+            = form_with model: answer, class: 'd-none', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
+              .mb-3 
+                =f.label :body, 'Your answer', class: 'form-label'
+                =f.text_area :body, rows: 10, class: 'form-control'
+              = f.submit 'Save', class: 'btn btn-primary'

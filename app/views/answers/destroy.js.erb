@@ -1,4 +1,4 @@
 $('.delete-answer').bind('ajax:success', function(e) {
   $(this).find('.answer-<%= answer.id %>').remove();
 })
-$('.answers').html('<%= j render @question.answers %>');
+$('.answers').html('<%= j render 'answers/answers', resource: @question %>');

@@ -20,6 +20,13 @@ class AnswersController < ApplicationController
     answer.destroy
   end
 
+  def mark_best
+    @question = answer.question
+    return unless current_user.author_of?(@question)
+
+    @question.update(best_answer: answer)
+  end
+
   private
 
   def answer
