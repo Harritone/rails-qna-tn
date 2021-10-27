@@ -1,0 +1,17 @@
+h1 = question.title
+p = question.body
+
+-if current_user&.author_of?(question)
+  =link_to 'Edit question', '#', class: 'btn btn-sm btn-info edit-question-link', data: { question_id: question.id }
+  .question-errors
+    = render 'shared/errors', resource: question
+  =form_with model: question, class: 'd-none', id: 'edit-question', local: false do |f|
+    .mb-3
+      =f.label :title, class: 'form-label'
+      =f.text_field :title, class: 'form-control'
+    .mb-3 
+      =f.label :body, class: 'form-label'
+      =f.text_area :body, rows: 10, class: 'form-control'
+    =f.submit 'Save', class: 'btn btn-primary'
+  .remove-question.my-2
+  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delet-answer'

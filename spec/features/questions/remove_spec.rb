@@ -9,11 +9,12 @@ feature 'Authorized user can remove their own question', %q(
   given!(:question) { create(:question, user_id: user.id) }
   given(:another_user) { create(:user) }
 
-  scenario 'User can delete their own question' do
+  scenario 'User can delete their own question', js: true do
     login(user)
     visit questions_path
     click_link question.title
     expect(page).to have_content question.body
+    expect(page).to have_link 'Remove question'
     click_on 'Remove question'
     expect(page).to have_content 'Question was removed'
     expect(page).not_to have_content question.title

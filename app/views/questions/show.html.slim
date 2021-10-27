@@ -1,14 +1,15 @@
-h1 = question.title
-p = question.body
+.question
+  =render question
 
--if current_user&.author_of?(question)
-  = link_to 'Remove question', question_path(question), method: :delete
 
-ul
-  = render question.answers
+.answers
+  / = render question.answers
+  =render 'answers/answers', resource: question
 
-= form_with model: [question, @answer], local: true do |f|
+.answer-errors
   = render 'shared/errors', resource: @answer
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.submit 'Publish'
+= form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
+  .mb-3
+    = f.label :body, 'Your answer', class: 'form-label'
+    = f.text_area :body, rows: 10, class: 'form-control'
+  = f.submit 'Publish', class: 'btn btn-primary'

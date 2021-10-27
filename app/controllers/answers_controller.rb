@@ -2,24 +2,29 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
+    @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
+  end
 
-    if @answer.save
-      redirect_to question, notice: 'Answer was published.'
-    else
-      render 'questions/show'
+  def update
+    if current_user.author_of?(answer)
+      @answer = answer
+      @answer.update(answer_params)
+      @question = @answer.question
     end
   end
 
   def destroy
-    if current_user.author_of?(answer)
-      answer.destroy
-      flash[:alert] = 'Answer was removed'
-    else
-      flash[:alert] = 'You are not allowed to perform this action'
-    end
+    return unless current_user.author_of?(answer)
 
-    redirect_to @answer.question
+    @question = answer.question
+    answer.destroy
+  end
+
+  def mark_best
+    @question = answer.question
+    return unless current_user.author_of?(@question)
+
+    @question.update(best_answer: answer)
   end
 
   private

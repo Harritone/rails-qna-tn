@@ -1,7 +1,14 @@
 = render 'shared/errors', resource: question
-p= form_with model: question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
+.card 
+  .card-header 
+    h3. Ask Question
+  .card-body
+     =form_with model: question, local: true do |f|
+      .mb-3
+        = f.label :title, class: 'form-label'
+        = f.text_field :title, class: 'form-control'
+      .mb-3
+        = f.label :body, class: 'form-label'
+        = f.text_area :body, cols: 30, rows: 10, class: 'form-control'
+      .float-end
+        = f.submit 'Ask', class: 'btn btn-primary'

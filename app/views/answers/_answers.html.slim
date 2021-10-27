@@ -1,0 +1,4 @@
+-if @question.best_answer
+  .best-answer 
+    = render 'answers/best_answer', resource: @question.best_answer
+= render @question.normal_answers
