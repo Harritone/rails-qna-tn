@@ -20,5 +20,11 @@ RSpec.describe Question, type: :model do
       expect(question.normal_answers).to include(answers.second)
       expect(question.normal_answers).to include(answers.last)
     end
+
+    it 'should return all answers if there is no best answers' do
+      question = create(:question)
+      answers = create_list(:answer, 3, question: question)
+      expect(question.normal_answers).to eq(answers)
+    end
   end
 end

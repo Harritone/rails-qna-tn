@@ -8,10 +8,7 @@ class Question < ApplicationRecord
   belongs_to :user
 
   def normal_answers
-    if best_answer
-      answers.where.not(id: best_answer.id)
-    else
-      answers
-    end
+    # best_answer ? answers.where.not(id: best_answer.id) : answers
+    answers.where.not(id: best_answer&.id) || answers
   end
 end
