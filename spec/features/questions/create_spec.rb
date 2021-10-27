@@ -35,6 +35,7 @@ feature 'Registered user can create question', %q(
       attach_file 'File', [Rails.root.join('spec', 'rails_helper.rb'), Rails.root.join('spec', 'spec_helper.rb')]
       click_on 'Ask'
       expect(page).to have_link 'rails_helper'
+      expect(page).to have_link 'spec_helper'
     end
   end
 

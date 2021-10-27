@@ -28,6 +28,14 @@ feature 'User can add answer to qeustions', %q(
       click_on 'Publish'
       expect(page).to have_content "Body can't be blank"
     end
+
+    scenario 'publish an answer with attached file' do
+      fill_in 'Your answer', with: 'My awesome answer!'
+      attach_file 'File', [Rails.root.join('spec', 'rails_helper.rb'), Rails.root.join('spec', 'spec_helper.rb')]
+      click_on 'Publish'
+      expect(page).to have_link 'rails_helper'
+      expect(page).to have_link 'spec_helper'
+    end
   end
 
   describe 'Unauthenticated user' do
