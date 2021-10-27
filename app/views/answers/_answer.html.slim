@@ -20,4 +20,7 @@ ul.list-group
               .mb-3 
                 =f.label :body, 'Your answer', class: 'form-label'
                 =f.text_area :body, rows: 10, class: 'form-control'
+              .mb-3 
+                =f.label :files, class: 'form-label'
+                =f.file_field :files, multiple: true, class: 'form-control'
               = f.submit 'Save', class: 'btn btn-primary'
