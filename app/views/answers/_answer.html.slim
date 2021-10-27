@@ -5,7 +5,10 @@ ul.list-group
         =answer.body
         -if answer.files.attached?
           - answer.files.each do |file|
-            p= link_to file.filename.to_s, url_for(file)
+            .my-2 id="file-id-#{file.id}"
+              = link_to file.filename.to_s, url_for(file)
+              -if current_user&.author_of?(answer)
+                = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
         .actions
           -if current_user&.author_of?(answer.question)
             = link_to 'Best it!', "/answers/#{answer.id}/mark_best", class: 'btn btn-sm btn-success mr-1', remote: true, method: :patch
