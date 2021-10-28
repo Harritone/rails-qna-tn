@@ -8,6 +8,10 @@ RSpec.describe Question, type: :model do
   it { should validate_length_of(:title).is_at_least(10).is_at_most(255) }
   it { should validate_length_of(:body).is_at_least(10) }
 
+  it 'should have many attached file' do
+    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
   describe '#normal_answers' do
     it 'should return answers without best answer' do
       question = build(:question)
@@ -21,7 +25,7 @@ RSpec.describe Question, type: :model do
       expect(question.normal_answers).to include(answers.last)
     end
 
-    it 'should return all answers if there is no best answers' do
+    it 'should return all answers if there is no best answer' do
       question = create(:question)
       answers = create_list(:answer, 3, question: question)
       expect(question.normal_answers).to eq(answers)

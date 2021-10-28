@@ -7,6 +7,8 @@ class Question < ApplicationRecord
 
   belongs_to :user
 
+  has_many_attached :files
+
   def normal_answers
     # best_answer ? answers.where.not(id: best_answer.id) : answers
     answers.where.not(id: best_answer&.id) || answers

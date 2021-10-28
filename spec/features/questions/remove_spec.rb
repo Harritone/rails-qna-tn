@@ -6,7 +6,7 @@ feature 'Authorized user can remove their own question', %q(
   I'd like to be able to remove my published question
 ) do
   given(:user) { create(:user) }
-  given!(:question) { create(:question, user_id: user.id) }
+  given!(:question) { create(:question, :with_files, user_id: user.id) }
   given(:another_user) { create(:user) }
 
   scenario 'User can delete their own question', js: true do
@@ -18,6 +18,18 @@ feature 'Authorized user can remove their own question', %q(
     click_on 'Remove question'
     expect(page).to have_content 'Question was removed'
     expect(page).not_to have_content question.title
+  end
+
+  scenario 'Author can delete attached files', js: true do
+    login(user)
+    visit question_path(question)
+
+    within all('.file').last do
+      expect(page).to have_link 'rails_helper.rb'
+      click_on 'Delete file'
+    end
+
+    expect(page).to_not have_link 'rails_helper.rb'
   end
 
   scenario 'User cannot delete other\'s questions' do

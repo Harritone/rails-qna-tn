@@ -10,5 +10,8 @@
       .mb-3
         = f.label :body, class: 'form-label'
         = f.text_area :body, cols: 30, rows: 10, class: 'form-control'
+      .mb-3 
+        = f.label :files, class: 'form-label'
+        = f.file_field :files, multiple: true, class: 'form-control'
       .float-end
         = f.submit 'Ask', class: 'btn btn-primary'
