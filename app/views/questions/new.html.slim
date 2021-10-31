@@ -13,13 +13,12 @@
       .mb-3 
         = f.label :files, class: 'form-label'
         = f.file_field :files, multiple: true, class: 'form-control'
-      h4 Links: 
-      = f.fields_for :links do |ff|
-        .mb-3
-          = ff.label :name, 'Link name', class: 'form-lable'
-          = ff.text_field :name, class: 'form-control'
-        .mb-3
-          = ff.label :url, 'URL', class: 'form-lable'
-          = ff.text_field :url, class: 'form-control'
-      .float-end
-        = f.submit 'Ask', class: 'btn btn-primary'
+      #links
+        h4 Links: 
+        .fields
+          = f.fields_for :links do |link_form|
+            = render 'link_fields', f: link_form
+        .links
+          = link_to_add_association 'Add link', f, :links, class: 'btn btn-sm btn-outline-primary'
+        .float-end
+          = f.submit 'Ask', class: 'btn btn-primary'
