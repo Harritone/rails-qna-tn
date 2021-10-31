@@ -26,7 +26,7 @@ feature 'Author of the question can mark answer as best', %q{
       expect(first('.answers')).to have_content answers.first.body
     end
 
-    scenario 'marks another one as best' do
+    scenario 'marks another one as best', js: true do
       within all('.actions').first do
         click_on 'Best it!'
       end

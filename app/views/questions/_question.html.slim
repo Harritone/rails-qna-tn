@@ -9,6 +9,13 @@ p = question.body
         -if current_user&.author_of?(question)
           = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
 
+.links 
+  - if question.links.any?
+    h4 Links:
+    ul
+      - question.links.each do |link|
+        li= link_to link.name, link.url
+
 -if current_user&.author_of?(question)
   =link_to 'Edit question', '#', class: 'btn btn-sm btn-info edit-question-link', data: { question_id: question.id }
   .question-errors
