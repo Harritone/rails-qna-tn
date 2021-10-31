@@ -13,4 +13,5 @@
   .mb-3 
     = f.label :files, class: 'form-label'
     = f.file_field :files, multiple: true, class: 'form-control'
+  = render 'shared/links_form', f: f
   = f.submit 'Publish', class: 'btn btn-primary'

@@ -15,10 +15,11 @@
         = f.file_field :files, multiple: true, class: 'form-control'
       #links
         h4 Links: 
-        .fields
-          = f.fields_for :links do |link_form|
-            = render 'link_fields', f: link_form
-        .links
-          = link_to_add_association 'Add link', f, :links, class: 'btn btn-sm btn-outline-primary'
+        / .fields
+        =render 'shared/links_form', f: f
+        /   = f.fields_for :links do |link_form|
+        /     = render 'link_fields', f: link_form
+        / .links
+        /   = link_to_add_association 'Add link', f, :links, class: 'btn btn-sm btn-outline-primary'
         .float-end
           = f.submit 'Ask', class: 'btn btn-primary'

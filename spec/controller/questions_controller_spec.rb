@@ -19,6 +19,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'should render show view' do
       expect(response).to render_template(:show)
     end
+
+    it 'should build links for answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
   end
 
   describe 'GET #new' do

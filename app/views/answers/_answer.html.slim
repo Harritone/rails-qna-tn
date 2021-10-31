@@ -3,6 +3,11 @@ ul.list-group
     .answer id="answer-#{answer.id}"
       li.list-group-item
         =answer.body
+        - if answer.links.any?
+          h4 Links: 
+          ul 
+            - answer.links.each do |link|
+              li= link_to link.name, link.url
         -if answer.files.attached?
           - answer.files.each do |file|
             .my-2 id="file-id-#{file.id}"

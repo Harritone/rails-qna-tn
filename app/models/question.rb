@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
-  has_many :links, inverse_of: :question, dependent: :destroy
+  has_many :links, as: :linkable, inverse_of: :linkable, dependent: :destroy
   belongs_to :best_answer, class_name: 'Answer', optional: true
 
   validates :title, presence: true, length: { minimum: 10, maximum: 255 }
