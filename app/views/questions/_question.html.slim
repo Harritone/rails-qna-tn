@@ -12,12 +12,17 @@ p = question.body
 .links 
   - if question.links.any?
     h4 Links:
-    ul
+    ul.list-group
       - question.links.each do |link|
-        li= link_to link.name, link.url
+        li.list-group
+          - if link.gist?
+            = javascript_include_tag link.url + '.js'
+          - else
+            = link_to link.name, link.url
 
 -if current_user&.author_of?(question)
   =link_to 'Edit question', '#', class: 'btn btn-sm btn-info edit-question-link', data: { question_id: question.id }
+
   .question-errors
     = render 'shared/errors', resource: question
 
@@ -31,6 +36,8 @@ p = question.body
     .mb-3 
       =f.label :files, class: 'form-label'
       =f.file_field :files, multiple: true, class: 'form-control'
+
+    = render 'shared/links_form', f: f
     =f.submit 'Save', class: 'btn btn-primary'
   .remove-question.my-2
-  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delet-answer'
+  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delete-answer'

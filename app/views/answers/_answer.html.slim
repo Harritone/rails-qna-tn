@@ -5,9 +5,13 @@ ul.list-group
         =answer.body
         - if answer.links.any?
           h4 Links: 
-          ul 
+          ul.list-group
             - answer.links.each do |link|
-              li= link_to link.name, link.url
+              li.list-group-item
+                - if link.gist?
+                  = javascript_include_tag link.url + '.js'
+                - else
+                  = link_to link.name, link.url
         -if answer.files.attached?
           - answer.files.each do |file|
             .my-2 id="file-id-#{file.id}"
@@ -23,7 +27,6 @@ ul.list-group
 
             = content_tag(:div, class: "edit-answer-#{answer.id}-errors")
               = render 'shared/errors', resource: @answer
-
             = form_with model: answer, class: 'd-none', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
               .mb-3 
                 =f.label :body, 'Your answer', class: 'form-label'
@@ -31,4 +34,5 @@ ul.list-group
               .mb-3 
                 =f.label :files, class: 'form-label'
                 =f.file_field :files, multiple: true, class: 'form-control'
+              = render 'shared/links_form', f: f
               = f.submit 'Save', class: 'btn btn-primary'
