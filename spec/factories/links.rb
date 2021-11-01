@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :link do
-    name { "Google" }
+    sequence(:name) { |n| "google #{n}" }
     url { "https://google.com" }
   end
 end
