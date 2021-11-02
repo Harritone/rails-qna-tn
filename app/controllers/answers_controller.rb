@@ -25,6 +25,7 @@ class AnswersController < ApplicationController
     return unless current_user.author_of?(@question)
 
     @question.update(best_answer: answer)
+    @question.badge&.update(user: answer.user)
   end
 
   private
