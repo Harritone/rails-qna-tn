@@ -1,6 +1,11 @@
 h1 = question.title
 p = question.body
 
+-if question.badge.present?
+  h4 Badge: 
+  =image_tag question.badge.image, size: '100x100'
+  h5= question.badge.name
+
 div class="question-#{question.id}-attachments"
   =render 'shared/attachments', resource: question
   / .file

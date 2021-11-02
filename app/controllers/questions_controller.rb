@@ -12,6 +12,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.build
+    question.build_badge
   end
 
   def create
@@ -29,6 +30,7 @@ class QuestionsController < ApplicationController
 
   def update
     return unless current_user.author_of?(question)
+
     question.update(question_params)
   end
 
@@ -51,6 +53,8 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: [:id, :name, :url, :_destroy],
+                                     badge_attributes: [:name, :image, :_destroy])
   end
 end

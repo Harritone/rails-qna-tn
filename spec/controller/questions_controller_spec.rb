@@ -38,6 +38,11 @@ RSpec.describe QuestionsController, type: :controller do
       subject
       expect(assigns(:question).links.first).to be_a_new(Link)
     end
+
+    it 'shuould build badge' do
+      subject
+      expect(assigns(:question).badge).to be_a_new(Badge)
+    end
   end
 
   describe 'GET #edit' do

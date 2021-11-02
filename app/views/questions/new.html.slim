@@ -16,5 +16,14 @@
       #links
         h4 Links: 
         =render 'shared/links_form', f: f
+      #badge 
+        h4 Badge: 
+        = f.fields_for :badge do |bf|
+          .mb-3 
+            = bf.label :name, 'Badge name', class: 'form-label'
+            = bf.text_field :name, class: 'form-control'
+          .mb-3 
+            = bf.label :image, class: 'form-lable'
+            = bf.file_field :image, class: 'form-control'
         .float-end
           = f.submit 'Ask', class: 'btn btn-primary'
