@@ -19,9 +19,13 @@ feature 'User can assign badge as a reward to question', %q{
     fill_in 'Badge name', with: 'For the best answer ever'
     attach_file 'Image', Rails.root.join('public/badges/badge.jpg')
     click_on 'Ask'
-    # visit questions_path
     expect(page).to have_content 'For the best answer ever'
   end
 
-  scenario 'User assigns badge with errors'
+  scenario 'User assigns badge with errors' do
+    fill_in 'Badge name', with: 'For the best answer ever'
+    attach_file 'Image', Rails.root.join('spec/spec_helper.rb')
+    click_on 'Ask'
+    expect(page).to have_content 'Badge image has an invalid content type'
+  end
 end

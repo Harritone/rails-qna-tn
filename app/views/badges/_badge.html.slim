@@ -1,0 +1,8 @@
+.col.my-2
+  .card.rounded[style="width: 15rem"]
+    = image_tag badge.image, size: 200, class: 'card-img-top position-relative p-2'
+    .card-body
+      h5.card-title.text-center.text-primary
+        = badge.name
+    .card-footer 
+      p.text-center.text-muted= badge.question.title
