@@ -9,6 +9,7 @@ feature 'User can edit his question', %q{
   given!(:question) { create(:question, user: user) }
   given(:another_user) { create(:user) }
   given(:another_question) { create(:question, user: another_user)}
+  given(:google_url) { 'https://google.com' }
 
   scenario 'Unauthenticated user cannot edit question', js: true do
     visit question_path(question)
@@ -53,6 +54,20 @@ feature 'User can edit his question', %q{
         expect(page).to have_link 'rails_helper'
         expect(page).to have_link 'spec_helper'
       end
+    end
+
+    scenario 'adds new links when edit', js: true do
+      click_on 'Edit question'
+      within '.question' do
+        fill_in 'Body', with: 'edited question body'
+        click_on 'Add link'
+        fill_in 'Link name', with: 'My link'
+        fill_in 'URL', with: google_url
+      end
+
+      click_on 'Save'
+
+      expect(page).to have_link 'My link', href: google_url
     end
 
     scenario 'tries to edit other user\'s question' do

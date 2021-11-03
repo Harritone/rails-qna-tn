@@ -19,13 +19,29 @@ RSpec.describe QuestionsController, type: :controller do
     it 'should render show view' do
       expect(response).to render_template(:show)
     end
+
+    it 'should build links for answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
   end
 
   describe 'GET #new' do
+    subject { get :new }
+    before { login(user) }
+
     it 'should render new view' do
-      login(user)
-      get :new
+      subject
       expect(response).to render_template(:new)
+    end
+
+    it 'should build nested links' do
+      subject
+      expect(assigns(:question).links.first).to be_a_new(Link)
+    end
+
+    it 'shuould build badge' do
+      subject
+      expect(assigns(:question).badge).to be_a_new(Badge)
     end
   end
 

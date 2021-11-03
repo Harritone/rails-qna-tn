@@ -3,8 +3,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
+gem 'active_storage_validations'
 gem 'aws-sdk-s3'
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'cocoon'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise', '~> 4.8'
 gem 'jbuilder', '~> 2.7'

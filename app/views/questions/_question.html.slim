@@ -1,16 +1,36 @@
 h1 = question.title
 p = question.body
 
-.file
-  -if question.files.attached?
-    - question.files.each do |file|
-      .my-2 id="file-id-#{file.id}"
-        = link_to file.filename.to_s, url_for(file), class:"d-block"
-        -if current_user&.author_of?(question)
-          = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
+-if question.badge.present?
+  h4 Badge: 
+  =image_tag question.badge.image, size: '100x100'
+  h5= question.badge.name
+
+div class="question-#{question.id}-attachments"
+  =render 'shared/attachments', resource: question
+  / .file
+  /   -if question.files.attached?
+  /     - question.files.each do |file|
+  /       .my-2 id="file-id-#{file.id}"
+  /         = link_to file.filename.to_s, url_for(file), class:"d-block"
+  /         -if current_user&.author_of?(question)
+  /           = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
+
+  / .link 
+  /   - if question.links.any?
+  /     h4 Links:
+  /     ul.list-group
+  /       - question.links.each do |link|
+  /         li.list-group.mb-2 id="link-#{link.id}"
+  /           - if link.gist?
+  /             = javascript_include_tag link.url + '.js'
+  /           - else
+  /             = link_to link.name, link.url
+  /           = link_to 'Delete link', link_path(link), method: :delete, remote: true, class: 'btn btn-sm btn-danger align-self-start remove-link'
 
 -if current_user&.author_of?(question)
   =link_to 'Edit question', '#', class: 'btn btn-sm btn-info edit-question-link', data: { question_id: question.id }
+
   .question-errors
     = render 'shared/errors', resource: question
 
@@ -24,6 +44,8 @@ p = question.body
     .mb-3 
       =f.label :files, class: 'form-label'
       =f.file_field :files, multiple: true, class: 'form-control'
+
+    = render 'shared/links_form', f: f
     =f.submit 'Save', class: 'btn btn-primary'
   .remove-question.my-2
-  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delet-answer'
+  = link_to 'Remove question', '#', method: :delete, class: 'btn btn-sm btn-danger delete-answer'

@@ -1,0 +1,7 @@
+h1.text-center My badges
+- if @badges.length.positive?
+  - @badges.each_slice(3) do |badge|
+    .row 
+      = render badge
+- else 
+  h1 You have no badges

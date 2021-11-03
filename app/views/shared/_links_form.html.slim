@@ -1,0 +1,5 @@
+.fields
+  = f.fields_for :links do |link_form|
+    = render 'application/link_fields', f: link_form
+.links.mb-2
+  = link_to_add_association 'Add link', f, :links, class: 'btn btn-sm btn-outline-primary'

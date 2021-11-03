@@ -7,9 +7,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = question.answers.new
+    @answer.links.build
   end
 
-  def new; end
+  def new
+    question.links.build
+    question.build_badge
+  end
 
   def create
     @question = current_user.questions.build(question_params)
@@ -21,11 +25,12 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def edit 
+  def edit
   end
 
   def update
     return unless current_user.author_of?(question)
+
     question.update(question_params)
   end
 
@@ -48,6 +53,8 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: [:id, :name, :url, :_destroy],
+                                     badge_attributes: [:name, :image, :_destroy])
   end
 end

@@ -15,5 +15,11 @@ FactoryBot.define do
         filename: 'rails_helper.rb')
       end
     end
+
+    trait :with_links do
+      after(:build) do |answer|
+        create_list(:link, 3, linkable: answer)
+      end
+    end
   end
 end

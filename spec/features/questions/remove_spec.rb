@@ -8,6 +8,7 @@ feature 'Authorized user can remove their own question', %q(
   given(:user) { create(:user) }
   given!(:question) { create(:question, :with_files, user_id: user.id) }
   given(:another_user) { create(:user) }
+  given(:question_with_links) { create(:question, :with_links, user: user) }
 
   scenario 'User can delete their own question', js: true do
     login(user)
@@ -32,15 +33,28 @@ feature 'Authorized user can remove their own question', %q(
     expect(page).to_not have_link 'rails_helper.rb'
   end
 
+  scenario 'Author can delete links', js: true do
+    login(user)
+    visit question_path(question_with_links)
+
+    within all('.link').first do
+      expect(page).to have_link question_with_links.links.first.name
+      # page.first('.remove-link').click
+      click_on 'Delete link', match: :first
+    end
+
+    expect(page).to_not have_link question_with_links.links.first.name
+  end
+
   scenario 'User cannot delete other\'s questions' do
     login another_user
-    visit questions_path
+    visit questions_path(question)
     click_link question.title
     expect(page).not_to have_link 'Remove question'
   end
 
   scenario 'Guests cannot delete questions' do
-    visit questions_path
+    visit questions_path(question)
     click_link question.title
     expect(page).not_to have_link 'Remove question'
   end

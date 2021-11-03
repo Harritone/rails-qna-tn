@@ -1,0 +1,17 @@
+.question-errors
+  = render 'shared/errors', resource: question
+=form_with model: question, local: true do |f|
+  .mb-3
+    = f.label :title, class: 'form-label'
+    = f.text_field :title, class: 'form-control'
+  .mb-3
+    = f.label :body, class: 'form-label'
+    = f.text_area :body, cols: 30, rows: 10, class: 'form-control'
+  .mb-3 
+    = f.label :files, class: 'form-label'
+    = f.file_field :files, multiple: true, class: 'form-control'
+  #links
+    h4 Links: 
+    =render 'shared/links_form', f: f
+    .float-end
+      = f.submit 'Ask', class: 'btn btn-primary'

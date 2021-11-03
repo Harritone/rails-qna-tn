@@ -115,6 +115,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #mark_best' do
     let(:answer) { create(:answer, user: another_user, question: question) }
+    let!(:badge) { create(:badge, question: question) }
     subject { patch :mark_best, params: { id: answer }, format: :js }
     let(:another_user) { create(:user) }
 
@@ -125,6 +126,12 @@ RSpec.describe AnswersController, type: :controller do
         subject
         question.reload
         expect(question.best_answer_id).to eq(answer.id)
+      end
+
+      it 'should assign user to the badge' do
+        subject
+        question.reload
+        expect(question.badge.user).to eq another_user
       end
 
       it 'should re-render mark_best' do

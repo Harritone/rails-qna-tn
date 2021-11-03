@@ -3,12 +3,23 @@ ul.list-group
     .answer id="answer-#{answer.id}"
       li.list-group-item
         =answer.body
-        -if answer.files.attached?
-          - answer.files.each do |file|
-            .my-2 id="file-id-#{file.id}"
-              = link_to file.filename.to_s, url_for(file)
-              -if current_user&.author_of?(answer)
-                = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
+        .file 
+          -if answer.files.attached?
+            - answer.files.each do |file|
+              .my-2 id="file-id-#{file.id}"
+                = link_to file.filename.to_s, url_for(file)
+                -if current_user&.author_of?(answer)
+                  = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
+        .link
+          - if answer.links.any?
+            h4 Links: 
+            ul.list-group
+              - answer.links.each do |link|
+                li.list-group-item
+                  - if link.gist?
+                    = javascript_include_tag link.url + '.js'
+                  - else
+                    = link_to link.name, link.url
         .actions
           -if current_user&.author_of?(answer.question)
             = link_to 'Best it!', "/answers/#{answer.id}/mark_best", class: 'btn btn-sm btn-success mr-1', remote: true, method: :patch
@@ -18,7 +29,6 @@ ul.list-group
 
             = content_tag(:div, class: "edit-answer-#{answer.id}-errors")
               = render 'shared/errors', resource: @answer
-
             = form_with model: answer, class: 'd-none', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
               .mb-3 
                 =f.label :body, 'Your answer', class: 'form-label'
@@ -26,4 +36,5 @@ ul.list-group
               .mb-3 
                 =f.label :files, class: 'form-label'
                 =f.file_field :files, multiple: true, class: 'form-control'
+              = render 'shared/links_form', f: f
               = f.submit 'Save', class: 'btn btn-primary'

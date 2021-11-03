@@ -1,0 +1,19 @@
+  .file
+    -if resource.files.attached?
+      - resource.files.each do |file|
+        .my-2 id="file-id-#{file.id}"
+          = link_to file.filename.to_s, url_for(file), class:"d-block"
+          -if current_user&.author_of?(resource)
+            = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
+
+  .link 
+    - if resource.links.any?
+      h4 Links:
+      ul.list-group
+        - resource.links.each do |link|
+          li.list-group.mb-2 id="link-id-#{link.id}"
+            - if link.gist?
+              = javascript_include_tag link.url + '.js'
+            - else
+              = link_to link.name, link.url
+            = link_to 'Delete link', link_path(link), method: :delete, remote: true, class: 'btn btn-sm btn-danger align-self-start remove-link'

@@ -1,5 +1,6 @@
 - if resource&.errors.present?
-  = content_tag :div, class: 'resource-errors alert alert-danger', data: {resource_id: resource.id } do
+  = content_tag :div, class: 'resource-errors alert alert-danger alert-dismissable fade show', role: 'alert', data: {resource_id: resource.id } do
+    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
     h2
       = "#{resource.errors.count} error(s) prohibited #{resource.model_name.human} to save:"
     ul
