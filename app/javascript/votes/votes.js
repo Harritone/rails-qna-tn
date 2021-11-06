@@ -4,8 +4,9 @@ $(document).on('turbolinks:load', function () {
     const resource =
       voteData.resource === 'question'
         ? $('.question')
-        : $(`.answer-id-${voteData.id}`);
+        : $(`#answer-${voteData.id}`);
 
+    console.log(resource);
     resource.find('.vote-up, .vote-down').toggle();
     resource.find('.revote').toggle();
     resource.find('.total-votes').html(voteData.votes);

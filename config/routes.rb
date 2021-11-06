@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :badges, only: :index
 
   resources :questions, concerns: :votable do
-    resources :answers, shallow: true, only: %i[create destroy update] do
+    resources :answers, shallow: true, only: %i[create destroy update], concerns: :votable do
       member do
         patch :mark_best
       end
