@@ -11,6 +11,5 @@ html
   body
     =render 'shared/navbar'
     .container
-      / = link_to 'Logout', destroy_user_session_path, method: :delete
       =flash_messages
       = yield

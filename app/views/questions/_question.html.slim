@@ -1,4 +1,28 @@
-h1 = question.title
+.d-flex.justify-content-between.align-items-center
+  h1 = question.title
+  = render 'shared/votes', resource: question
+  / -if current_user
+  /   .rating
+  /     .d-flex.flex-column.align-items-center
+  /       .question-vote-up
+  /         = link_to polymorphic_path(question, action: :vote_up), class: "vote-up",
+  /           style: "display:#{current_user.voted_for?(question) ? 'none' : ''}" ,
+  /           method: :put, remote: true, data: { type: :json } do
+  /           i.fa.fa-angle-up.text-success
+  /       .question-total-votes
+  /         = question.votes_count
+  /       .question-vote-down
+  /         = link_to polymorphic_path(question, action: :vote_down), class: "vote-down",
+  /           style: "display:#{current_user.voted_for?(question) ? 'none' : ''}" ,
+  /           method: :put, remote: true, data: { type: :json } do
+  /           i.fa.fa-angle-down.text-danger
+  /     .re-vote 
+  /       =link_to 're-vote', polymorphic_path(question, action: :revote), class: "revote btn btn-sm btn-primary", style: "display: #{current_user.voted_for?(question) ? '' : 'none' }",
+  /         method: :put, remote: true, data: { type: :json }
+  / -else
+  /   .question-total-votes 
+  /     = question.votes_count
+
 p = question.body
 
 -if question.badge.present?
@@ -8,25 +32,6 @@ p = question.body
 
 div class="question-#{question.id}-attachments"
   =render 'shared/attachments', resource: question
-  / .file
-  /   -if question.files.attached?
-  /     - question.files.each do |file|
-  /       .my-2 id="file-id-#{file.id}"
-  /         = link_to file.filename.to_s, url_for(file), class:"d-block"
-  /         -if current_user&.author_of?(question)
-  /           = link_to "Delete file", file_path(file), method: :delete, remote: true, class: 'btn btn-sm btn-danger'
-
-  / .link 
-  /   - if question.links.any?
-  /     h4 Links:
-  /     ul.list-group
-  /       - question.links.each do |link|
-  /         li.list-group.mb-2 id="link-#{link.id}"
-  /           - if link.gist?
-  /             = javascript_include_tag link.url + '.js'
-  /           - else
-  /             = link_to link.name, link.url
-  /           = link_to 'Delete link', link_path(link), method: :delete, remote: true, class: 'btn btn-sm btn-danger align-self-start remove-link'
 
 -if current_user&.author_of?(question)
   =link_to 'Edit question', '#', class: 'btn btn-sm btn-info edit-question-link', data: { question_id: question.id }

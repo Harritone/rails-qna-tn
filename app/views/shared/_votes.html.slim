@@ -1,0 +1,21 @@
+-if current_user && !current_user.author_of?(resource)
+  .rating
+    .d-flex.flex-column.align-items-center
+      .vote-up-wrapper
+        = link_to polymorphic_path(resource, action: :vote_up), class: "vote-up",
+          style: "display:#{current_user.voted_for?(resource) ? 'none' : ''}" ,
+          method: :put, remote: true, data: { type: :json } do
+          i.fa.fa-angle-up.text-success
+      .total-votes
+        = resource.votes_count
+      .vote-down-wrapper
+        = link_to polymorphic_path(resource, action: :vote_down), class: "vote-down",
+          style: "display:#{current_user.voted_for?(resource) ? 'none' : ''}" ,
+          method: :put, remote: true, data: { type: :json } do
+          i.fa.fa-angle-down.text-danger
+    .re-vote 
+      =link_to 're-vote', polymorphic_path(resource, action: :revote), class: "revote btn btn-sm btn-primary", style: "display: #{current_user.voted_for?(resource) ? '' : 'none' }",
+        method: :put, remote: true, data: { type: :json }
+-else
+  .question-total-votes 
+    = resource.votes_count

@@ -10,8 +10,10 @@ import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap';
 import 'channels';
 import '@nathanvda/cocoon';
-require('../answers/answers');
-require('../questions/question');
+import '@fortawesome/fontawesome-free/css/all';
+import '../answers/answers';
+import '../questions/question';
+import '../votes/votes';
 
 Rails.start();
 Turbolinks.start();
