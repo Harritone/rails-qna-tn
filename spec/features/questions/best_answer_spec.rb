@@ -31,6 +31,8 @@ feature 'Author of the question can mark answer as best', %q{
         click_on 'Best it!'
       end
 
+      page.refresh
+
       within all('.actions').last do
         click_on 'Best it!'
       end

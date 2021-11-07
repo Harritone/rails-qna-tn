@@ -2,7 +2,13 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user_id: user.id) }
+
+  describe 'Voted' do
+    let(:votable) { question }
+    it_behaves_like 'voted'
+  end
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }

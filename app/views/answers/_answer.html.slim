@@ -22,7 +22,7 @@ ul.list-group
                     = link_to link.name, link.url
         .actions
           -if current_user&.author_of?(answer.question)
-            = link_to 'Best it!', "/answers/#{answer.id}/mark_best", class: 'btn btn-sm btn-success mr-1', remote: true, method: :patch
+            = link_to 'Best it!', mark_best_answer_path(answer), class: 'btn btn-sm btn-success mr-1', remote: true, method: :patch
           -if current_user&.author_of?(answer)
             = link_to 'Remove answer', answer_path(answer), remote: true, method: :delete, class: 'btn btn-sm btn-danger mr-1'
             = link_to 'Edit', '#', class: 'edit-answer-link btn btn-sm btn-info', data: { answer_id: answer.id }
@@ -38,3 +38,5 @@ ul.list-group
                 =f.file_field :files, multiple: true, class: 'form-control'
               = render 'shared/links_form', f: f
               = f.submit 'Save', class: 'btn btn-primary'
+        .votes.d-flex.justify-content-between.align-items-center
+          =render 'shared/votes', resource: answer
