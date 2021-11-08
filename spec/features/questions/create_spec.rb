@@ -39,7 +39,7 @@ feature 'Registered user can create question', %q(
     end
   end
 
-  fcontext 'multiple sessions' do
+  context 'multiple sessions' do
     scenario 'question appears on another user browser', js: true do
       Capybara.using_session('user') do
         login(user)

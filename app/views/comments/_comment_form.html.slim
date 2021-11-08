@@ -1,0 +1,5 @@
+= form_for @comment, url: '#' do |f|
+  .mb-3 
+    = f.label :content, 'Comment', class: 'form-label'
+    = f.text_area :content, rows: 5, class: 'form-control'
+  = f.submit 'Post comment', class: 'btn btn-primary'

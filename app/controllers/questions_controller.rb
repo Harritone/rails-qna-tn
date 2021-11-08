@@ -10,6 +10,8 @@ class QuestionsController < ApplicationController
   def show
     @answer = question.answers.new
     @answer.links.build
+    @comments = question.comments
+    @comment = Comment.new
   end
 
   def new
@@ -59,7 +61,7 @@ class QuestionsController < ApplicationController
   end
 
   def question
-    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.includes(:comments).with_attached_files.find(params[:id]) : Question.new
   end
 
   helper_method :question

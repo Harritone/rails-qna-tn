@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :badges, dependent: :nullify
   has_many :votes, dependent: :nullify
+  has_many :comments, dependent: :destroy
 
   def author_of?(entity)
     return false unless entity.respond_to?(:user_id)

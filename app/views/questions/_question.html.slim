@@ -4,6 +4,12 @@
 
 p = question.body
 
+- if current_user && @comment
+  = render 'comments/comment_form'
+
+#question-comments data-question-id="#{question.id}"
+  = render question.comments
+
 -if question.badge.present?
   h4 Badge: 
   =image_tag question.badge.image, size: '100x100'
