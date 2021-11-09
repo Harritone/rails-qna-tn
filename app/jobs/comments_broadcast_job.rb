@@ -12,10 +12,6 @@ class CommentsBroadcastJob < ApplicationJob
   private
 
   def render_comment(comment)
-    # if comment.commentable_type == 'Answer'
-      ApplicationController.render partial: 'comments/comment', locals: { comment: comment }
-    # else
-      # QuestionsController.render partial: 'comments/comment', locals: { comment: comment }
-    # end
+    ApplicationController.render partial: 'comments/comment', locals: { comment: comment }
   end
 end
