@@ -4,6 +4,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :links, dependent: :destroy, as: :linkable, inverse_of: :linkable
+  has_many :comments, dependent: :destroy, as: :commentable
 
   validates :body, presence: true, length: { minimum: 10 }
 

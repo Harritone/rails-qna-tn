@@ -15,7 +15,6 @@ $(document).on('turbolinks:load', function () {
           comments.append(data['comment']);
         },
         send_comment: function (comment, question_id) {
-          console.log(question_id);
           this.perform('send_comment', {
             comment: comment,
             question_id: question_id,
