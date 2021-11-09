@@ -3,8 +3,8 @@ import consumer from '../channels/consumer';
 $(document).on('turbolinks:load', function () {
   const answers = $('.answer');
   answers.each(function () {
-    const answerId = $(this).data('answer-id');
     const comments = $(this).find('.answer-comments');
+    const answerId = $(this).data('answer-id');
     if (comments.length > 0) {
       consumer.subscriptions.create(
         {
@@ -32,11 +32,15 @@ $(document).on('turbolinks:load', function () {
         e.preventDefault();
         const textarea = $(this).find('#comment_content');
         const commentLength = $.trim(textarea.val()).length;
+        const identifier = {
+          channel: 'AnswersCommentsChannel',
+          answer_id: answerId,
+        };
         if (commentLength > 5 && commentLength < 10000) {
-          consumer.subscriptions.subscriptions[2].send_comment(
-            textarea.val(),
-            comments.data('answer-id'),
+          const subscription = consumer.subscriptions.subscriptions.find(
+            (sub) => sub.identifier == JSON.stringify(identifier),
           );
+          subscription.send_comment(textarea.val(), answerId);
           textarea.val('');
         } else {
           const errorDiv = document.createElement('div');

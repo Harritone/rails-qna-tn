@@ -7,12 +7,10 @@ consumer.subscriptions.create(
   },
   {
     connected() {
-      console.log('answerschannel');
       this.perform('follow');
     },
 
     received(data) {
-      // console.log(data);
       const answersList = document.getElementById('answers');
       const div = document.createElement('div');
       div.innerHTML = data;

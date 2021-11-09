@@ -22,28 +22,34 @@ $(document).on('turbolinks:load', function () {
         },
       },
     );
-  }
-  $('#new_comment').submit((e) => {
-    e.preventDefault();
-    const form = $('#new_comment');
-    const textarea = $('#new_comment').find('#comment_content');
-    const commentLength = $.trim(textarea.val()).length;
-    if (commentLength > 5 && commentLength < 10000) {
-      consumer.subscriptions.subscriptions[1].send_comment(
-        textarea.val(),
-        comments.data('question-id'),
-      );
-      textarea.val('');
-    } else {
-      const errorDiv = document.createElement('div');
-      errorDiv.innerHTML = `
+    $('#new_comment').submit((e) => {
+      e.preventDefault();
+      const form = $('#new_comment');
+      const textarea = $('#new_comment').find('#comment_content');
+      const commentLength = $.trim(textarea.val()).length;
+      const identifier = {
+        channel: 'QuestionsCommentsChannel',
+        question_id: comments.data('question-id'),
+      };
+      if (commentLength > 5 && commentLength < 10000) {
+        const subscription = consumer.subscriptions.subscriptions.find(
+          (sub) => {
+            return sub.identifier == JSON.stringify(identifier);
+          },
+        );
+        subscription.send_comment(textarea.val(), comments.data('question-id'));
+        textarea.val('');
+      } else {
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <strong>Holy guacamole!</strong> Your comment should be as long as 10 000 characters and more than 5.
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       `;
-      form.prepend(errorDiv);
-    }
-    return false;
-  });
+        form.prepend(errorDiv);
+      }
+      return false;
+    });
+  }
 });
