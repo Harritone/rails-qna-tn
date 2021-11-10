@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :files, only: :destroy
   resources :links, only: :destroy
   resources :badges, only: :index
+  resources :comments, only: :create
 
   resources :questions, concerns: :votable do
     resources :answers, shallow: true, only: %i[create destroy update], concerns: :votable do
@@ -22,4 +23,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  mount ActionCable.server => '/cable'
 end

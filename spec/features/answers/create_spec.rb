@@ -6,7 +6,7 @@ feature 'User can add answer to qeustions', %q(
   to a particular question
 ) do
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -34,6 +34,34 @@ feature 'User can add answer to qeustions', %q(
       click_on 'Publish'
       expect(page).to have_link 'rails_helper'
       expect(page).to have_link 'spec_helper'
+    end
+  end
+
+  describe 'multiple sessions' do
+    scenario 'answer appears on anoter user browser', js: true do
+      Capybara.using_session('user') do
+        login(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your answer', with: 'My awesome answer!'
+        click_on 'Publish'
+        expect(current_path).to eq(question_path(question))
+        within '.answers' do
+          expect(page).to have_content 'My awesome answer!'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'My awesome answer!'
+        end
+      end
     end
   end
 

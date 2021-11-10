@@ -1,6 +1,6 @@
 ul.list-group
   -if answer.id
-    .answer id="answer-#{answer.id}"
+    .answer id="answer-#{answer.id}" data-answer-id="#{answer.id}"
       li.list-group-item
         =answer.body
         .file 
@@ -38,5 +38,14 @@ ul.list-group
                 =f.file_field :files, multiple: true, class: 'form-control'
               = render 'shared/links_form', f: f
               = f.submit 'Save', class: 'btn btn-primary'
+
         .votes.d-flex.justify-content-between.align-items-center
           =render 'shared/votes', resource: answer
+
+        .answer-comments data-answer-id="#{answer.id}" id="answer-#{answer.id}-comments-wrapper"
+          - if current_user && @comment
+            div id="answer-#{answer.id}-comment-errors"
+              =render 'shared/errors', resource: @comment
+            = render 'comments/comment_form', commentable: answer
+          div id="answer-#{answer.id}-comments" data-answer-id="#{answer.id}"
+            = render answer.comments

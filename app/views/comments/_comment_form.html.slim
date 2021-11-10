@@ -1,0 +1,7 @@
+= form_with model: @comment, local: false  do |f|
+  .mb-3 
+    = f.label :content, 'Comment', class: 'form-label'
+    = f.text_area :content, rows: 5, class: 'form-control'
+    = f.hidden_field :commentable_id, value: commentable.id
+    = f.hidden_field :commentable_type, value: commentable.class.name
+  = f.submit 'Post comment', class: 'btn btn-primary'

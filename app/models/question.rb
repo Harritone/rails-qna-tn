@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   include Votable
 
   has_many :answers, dependent: :destroy
+  has_many :comments, dependent: :destroy, as: :commentable
   has_many :links, as: :linkable, inverse_of: :linkable, dependent: :destroy
   has_one :badge, dependent: :destroy
   belongs_to :best_answer, class_name: 'Answer', optional: true

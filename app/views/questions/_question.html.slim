@@ -1,29 +1,16 @@
 .d-flex.justify-content-between.align-items-center
   h1 = question.title
   = render 'shared/votes', resource: question
-  / -if current_user
-  /   .rating
-  /     .d-flex.flex-column.align-items-center
-  /       .question-vote-up
-  /         = link_to polymorphic_path(question, action: :vote_up), class: "vote-up",
-  /           style: "display:#{current_user.voted_for?(question) ? 'none' : ''}" ,
-  /           method: :put, remote: true, data: { type: :json } do
-  /           i.fa.fa-angle-up.text-success
-  /       .question-total-votes
-  /         = question.votes_count
-  /       .question-vote-down
-  /         = link_to polymorphic_path(question, action: :vote_down), class: "vote-down",
-  /           style: "display:#{current_user.voted_for?(question) ? 'none' : ''}" ,
-  /           method: :put, remote: true, data: { type: :json } do
-  /           i.fa.fa-angle-down.text-danger
-  /     .re-vote 
-  /       =link_to 're-vote', polymorphic_path(question, action: :revote), class: "revote btn btn-sm btn-primary", style: "display: #{current_user.voted_for?(question) ? '' : 'none' }",
-  /         method: :put, remote: true, data: { type: :json }
-  / -else
-  /   .question-total-votes 
-  /     = question.votes_count
 
 p = question.body
+
+- if current_user && @comment
+  div id="question-#{question.id}-comment-errors"
+    =render 'shared/errors', resource: @comment
+  = render 'comments/comment_form', commentable: question
+
+#question-comments data-question-id="#{question.id}"
+  = render question.comments
 
 -if question.badge.present?
   h4 Badge: 

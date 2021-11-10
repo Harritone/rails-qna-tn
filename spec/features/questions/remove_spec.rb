@@ -39,8 +39,8 @@ feature 'Authorized user can remove their own question', %q(
 
     within all('.link').first do
       expect(page).to have_link question_with_links.links.first.name
-      # page.first('.remove-link').click
-      click_on 'Delete link', match: :first
+      page.first('.remove-link').click
+      # click_on 'Delete link', match: :first
     end
 
     expect(page).to_not have_link question_with_links.links.first.name

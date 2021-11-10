@@ -14,6 +14,8 @@ import '@fortawesome/fontawesome-free/css/all';
 import '../answers/answers';
 import '../questions/question';
 import '../votes/votes';
+// import '../comments/questionsComments';
+// import '../comments/answersComments';
 
 Rails.start();
 Turbolinks.start();
