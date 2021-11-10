@@ -5,7 +5,9 @@
 p = question.body
 
 - if current_user && @comment
-  = render 'comments/comment_form'
+  div id="question-#{question.id}-comment-errors"
+    =render 'shared/errors', resource: @comment
+  = render 'comments/comment_form', commentable: question
 
 #question-comments data-question-id="#{question.id}"
   = render question.comments

@@ -42,8 +42,10 @@ ul.list-group
         .votes.d-flex.justify-content-between.align-items-center
           =render 'shared/votes', resource: answer
 
-        .answer-comments id="answer-#{answer.id}" data-answer-id="#{answer.id}"
+        .answer-comments data-answer-id="#{answer.id}" id="answer-#{answer.id}-comments-wrapper"
           - if current_user && @comment
-            = render 'comments/comment_form'
+            div id="answer-#{answer.id}-comment-errors"
+              =render 'shared/errors', resource: @comment
+            = render 'comments/comment_form', commentable: answer
           div id="answer-#{answer.id}-comments" data-answer-id="#{answer.id}"
             = render answer.comments

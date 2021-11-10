@@ -9,7 +9,6 @@ consumer.subscriptions.create(
     connected() {
       this.perform('follow');
     },
-
     received(data) {
       const answersList = document.getElementById('answers');
       const div = document.createElement('div');
