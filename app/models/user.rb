@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
+         :confirmable,
          :omniauthable, omniauth_providers: [:github]
 
   has_many :questions, dependent: :destroy
@@ -22,19 +23,6 @@ class User < ApplicationRecord
   end
 
   def self.find_for_oauth(data)
-    authorization = Authorization.find_by(provider: data.provider, uid: data.uid.to_s)
-    return authorization.user if authorization
-
-    email = data.info[:email]
-    user = User.find_by(email: email)
-
-    user ||= User.create!(email: email, password: Devise.friendly_token[0, 20])
-
-    user.authorizations.create(provider: data.provider, uid: data.uid.to_s)
-    user
-  end
-
-  def create_authorization(data)
-    self.authorizations.create(provider: data.provider, uid: data.uid.to_s)
+    FindForOauthService.new(data).call
   end
 end

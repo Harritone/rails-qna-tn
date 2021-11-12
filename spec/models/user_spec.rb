@@ -38,64 +38,12 @@ RSpec.describe User, type: :model do
 
   describe '.find_for_oauth' do
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123123') }
+    let(:service) { double('FindForOauthService') }
 
-    context 'user already has authorization' do
-      it 'should return user' do
-        user.authorizations.create(provider: 'facebook', uid: '123123')
-        expect(User.find_for_oauth(auth)).to eq user
-      end
-    end
-
-    context 'user has no authorization' do
-      context 'user exists in db' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123123', info: { email: user.email }) }
-
-        it 'should not create new user' do
-          expect{ User.find_for_oauth(auth) }.to_not change(User, :count)
-        end
-
-        it 'should create authorisation for user' do
-          expect{ User.find_for_oauth(auth) }.to change(Authorization, :count).by(1)
-        end
-
-        it 'should create authorization with provider and uid' do
-          authorization = User.find_for_oauth(auth).authorizations.first
-          expect(authorization.uid).to eq auth.uid
-          expect(authorization.provider).to eq auth.provider
-        end
-
-        it 'should return user' do
-          expect(User.find_for_oauth(auth)).to eq user
-        end
-      end
-
-      context 'user does not exist' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123123', info: { email: 'new@user.com' }) }
-
-        it 'should create new user' do
-          expect{ User.find_for_oauth(auth) }.to change(User, :count).by(1)
-        end
-
-        it 'should return new user' do
-          expect(User.find_for_oauth(auth)).to be_a(User)
-        end
-
-        it 'should fill user email' do
-          user = User.find_for_oauth(auth)
-          expect(user.email).to eq auth.info.email
-        end
-
-        it 'should create authorization for user' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations).to_not be_empty
-        end
-
-        it 'should create authorization with provider and uid' do
-          authorization = User.find_for_oauth(auth).authorizations.first
-          expect(authorization.uid).to eq auth.uid
-          expect(authorization.provider).to eq auth.provider
-        end
-      end
+    it 'should call FindForAuthService' do
+      expect(FindForOauthService).to receive(:new).with(auth).and_return(service)
+      expect(service).to receive(:call).and_return(user)
+      User.find_for_oauth(auth)
     end
   end
 end

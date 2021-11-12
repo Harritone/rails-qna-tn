@@ -24,5 +24,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/email', to: 'users#email'
+  post '/set_email', to: 'users#set_email'
+
   mount ActionCable.server => '/cable'
 end
