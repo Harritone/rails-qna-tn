@@ -4,8 +4,9 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
   it { should have_many(:badges).dependent(:nullify) }
+  it { should have_many(:authorizations).dependent(:destroy) }
 
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:another_user) { create(:user) }
 
@@ -32,6 +33,17 @@ RSpec.describe User, type: :model do
     it 'should return true if voted' do
       create(:vote, user: another_user, votable: question)
       expect(another_user.voted_for?(question)).to be_truthy
+    end
+  end
+
+  describe '.find_for_oauth' do
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123123') }
+    let(:service) { double('FindForOauthService') }
+
+    it 'should call FindForAuthService' do
+      expect(FindForOauthService).to receive(:new).with(auth).and_return(service)
+      expect(service).to receive(:call).and_return(user)
+      User.find_for_oauth(auth)
     end
   end
 end
