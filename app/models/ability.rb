@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Ability
   include CanCan::Ability
   attr_reader :user
@@ -25,6 +23,19 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user: user
+    can :update, [Question, Answer, Comment], user_id: user.id
+    can :destroy, [Question, Answer, Comment], user_id: user.id
+    can :mark_best, Answer, question: { user_id: user.id }
+
+    can %i[vote_up vote_down reset_vote], [Question, Answer] do |resource|
+      !user.author_of?(resource)
+    end
+
+    can :reset_vote, [Question, Answer] do |resource|
+      user.author_of?(resource)
+    end
+
+    can :destroy, Link, linkable: { user_id: user.id }
+    can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
   end
 end
