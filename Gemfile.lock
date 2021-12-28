@@ -109,6 +109,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
+    doorkeeper (5.5.4)
+      railties (>= 5)
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -360,6 +362,7 @@ DEPENDENCIES
   cocoon
   decent_exposure (~> 3.0)
   devise (~> 4.8)
+  doorkeeper
   factory_bot_rails (~> 6.2)
   gon
   jbuilder (~> 2.7)
