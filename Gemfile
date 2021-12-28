@@ -14,7 +14,7 @@ gem 'gon'
 gem 'jbuilder', '~> 2.7'
 gem 'omniauth'
 gem 'omniauth-github'
-gem "omniauth-rails_csrf_protection"
+gem 'omniauth-rails_csrf_protection'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
@@ -39,7 +39,9 @@ group :development do
   # gem 'rack-mini-profiler', '~> 2.0'
   gem 'launchy', '~> 2.5'
   gem 'listen', '~> 3.3'
-  gem 'rubocop', '~> 1.22', '>= 1.22.1', require: false
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'spring'
 end
 
