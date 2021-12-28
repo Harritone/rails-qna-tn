@@ -1,6 +1,6 @@
 module ApiHelpers
   def json
-    JSON.parse(response.body).deep_symbolize_keys
+    @json ||= JSON.parse(response.body).deep_symbolize_keys
   end
 
   def json_data
