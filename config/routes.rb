@@ -4,8 +4,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :profiles, only: [] do
+      resources :profiles, only: [:index] do
         get :me, on: :collection
+      end
+      resources :questions, only: %i[index show create destroy update] do
+        resources :answers, only: %i[index show create destroy update]
       end
     end
   end
