@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.5'
 
+gem 'active_model_serializers', '~> 0.10'
 gem 'active_storage_validations'
 gem 'aws-sdk-s3'
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -10,11 +11,13 @@ gem 'cancancan'
 gem 'cocoon'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise', '~> 4.8'
+gem 'doorkeeper'
 gem 'gon'
 gem 'jbuilder', '~> 2.7'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
-gem "omniauth-rails_csrf_protection"
+gem 'omniauth-rails_csrf_protection'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
@@ -39,7 +42,9 @@ group :development do
   # gem 'rack-mini-profiler', '~> 2.0'
   gem 'launchy', '~> 2.5'
   gem 'listen', '~> 3.3'
-  gem 'rubocop', '~> 1.22', '>= 1.22.1', require: false
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'spring'
 end
 
