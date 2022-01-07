@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable,
+        #  :confirmable,
          :omniauthable, omniauth_providers: [:github]
 
   has_many :questions, dependent: :destroy
@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :nullify
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(entity)
     return false unless entity.respond_to?(:user_id)

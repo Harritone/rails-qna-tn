@@ -11,4 +11,12 @@ class Answer < ApplicationRecord
   has_many_attached :files
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
+
+  after_create :notify_subscribers
+
+  private
+
+  def notify_subscribers
+    QuestionUpdateNotificationJob.perform_later(self.question)
+  end
 end

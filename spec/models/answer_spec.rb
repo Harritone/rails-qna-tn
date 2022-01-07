@@ -13,4 +13,16 @@ RSpec.describe Answer, type: :model do
   it 'should have many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  describe 'after_create notify_subscribers' do
+    let(:answer) { build(:answer) }
+
+    it 'should call QuestionUpdateNotificationJob' do
+      expect(QuestionUpdateNotificationJob)
+        .to receive(:perform_later)
+        .with(answer.question)
+
+      answer.save!
+    end
+  end
 end

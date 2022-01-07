@@ -17,6 +17,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
     context 'user exists' do
       before do
+        # user.confirm
         allow(User).to receive(:find_for_oauth).and_return(user)
         get :github
       end
