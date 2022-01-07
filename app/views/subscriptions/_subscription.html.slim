@@ -1,0 +1,13 @@
+- unless current_user.nil?
+  - if question.subscribed?(current_user)
+    p = link_to 'Unsubscribe',
+            subscription_path(question.find_user_subscription(current_user)),
+            class: 'btn btn-sm btn-outline-danger',
+            method: :delete,
+            remote: true
+  - else
+    p = link_to 'Subscribe',
+            subscriptions_path(subscribable_type: question.class.to_s, subscribable_id: question.id),
+            class: 'btn btn-sm btn-outline-success',
+            method: :post,
+            remote: true

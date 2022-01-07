@@ -23,7 +23,7 @@ describe Ability do
     let(:user)        { create :user }
     let(:second_user) { create :user }
 
-    let(:question)        { create :question, user: user }
+    let(:question) { create :question, user: user }
     let(:second_question) { create :question, user: second_user }
 
     it { is_expected.to     be_able_to :read, :all }
@@ -35,7 +35,7 @@ describe Ability do
     it { is_expected.not_to be_able_to :update, create(:question, user: second_user), user: user }
 
     context 'when answer' do
-      let(:answer)        { create :answer, question: question, user: user }
+      let!(:answer) { create :answer, question: question, user: user }
       let(:second_answer) { create :answer, question: second_question, user: second_user }
 
       it { is_expected.to     be_able_to :create, Answer }
@@ -44,12 +44,20 @@ describe Ability do
     end
 
     context 'when comment' do
-      let(:comment)        { create :comment, commentable: question, user: user }
+      let(:comment) { create :comment, commentable: question, user: user }
       let(:second_comment) { create :comment, commentable: question, user: second_user }
 
       it { is_expected.to     be_able_to :create, Comment }
       it { is_expected.to     be_able_to :update, comment, user: user }
       it { is_expected.not_to be_able_to :update, second_comment, user: user }
+    end
+
+    context 'when subscription' do
+      let(:question) { create(:question) }
+      let(:subscription) { create(:subscription, user: user, subscribable: question) }
+
+      it { is_expected.to be_able_to :create, Subscription }
+      it { is_expected.to be_able_to :destroy, Subscription }
     end
   end
 end

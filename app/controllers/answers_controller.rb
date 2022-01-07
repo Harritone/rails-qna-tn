@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   include Voted
   before_action :authenticate_user!
   after_action :publish_answer, only: :create
+  authorize_resource
 
   def create
     @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
