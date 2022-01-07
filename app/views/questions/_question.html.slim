@@ -2,6 +2,9 @@
   h1 = question.title
   = render 'shared/votes', resource: question
 
+.subscription
+  = render 'subscriptions/subscription'
+
 p = question.body
 
 - if current_user && @comment

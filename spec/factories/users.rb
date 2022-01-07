@@ -4,6 +4,7 @@ FactoryBot.define do
     password { 'P4ssword' }
     password_confirmation { 'P4ssword' }
   end
+
   trait :with_badges do
     transient do
       badge_count { 2 }

@@ -27,7 +27,7 @@ class Ability
     can :destroy, [Question, Answer, Comment], user_id: user.id
     can :mark_best, Answer, question: { user_id: user.id }
 
-    can %i[vote_up vote_down reset_vote], [Question, Answer] do |resource|
+    can %i[vote_up vote_down revote], [Question, Answer] do |resource|
       !user.author_of?(resource)
     end
 
@@ -37,5 +37,8 @@ class Ability
 
     can :destroy, Link, linkable: { user_id: user.id }
     can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
+
+    can :create,  Subscription
+    can :destroy, Subscription, user_id: user.id
   end
 end
