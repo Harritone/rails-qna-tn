@@ -4,7 +4,10 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  before { login(user) }
+  before do
+    login(user)
+    # user.confirm
+  end
 
   describe 'Voted' do
     let(:votable) { create(:answer, user: user, question: question) }
@@ -17,7 +20,7 @@ RSpec.describe AnswersController, type: :controller do
       subject { post :create, params: valid_params, format: :js }
 
       it 'should save answer to db' do
-        expect{ subject }.to change{ question.answers.count }.by(1)
+        expect { subject }.to change { question.answers.count }.by(1)
       end
 
       it 'should redirect to assotiated question' do

@@ -1,3 +1,5 @@
+# frozen_string_literal:true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -12,6 +14,8 @@ gem 'cocoon'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise', '~> 4.8'
 gem 'doorkeeper'
+gem 'dry-monads'
+gem 'dry-validation'
 gem 'gon'
 gem 'jbuilder', '~> 2.7'
 gem 'oj'
@@ -23,9 +27,12 @@ gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 gem 'redis', '~> 4.5', '>= 4.5.1'
 gem 'sass-rails', '>= 6'
+gem 'sidekiq'
+gem 'sinatra', require: false
 gem 'slim-rails', '~> 3.3'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

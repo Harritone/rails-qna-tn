@@ -38,4 +38,21 @@ RSpec.describe Question, type: :model do
       expect(question.normal_answers).to eq(answers)
     end
   end
+
+  describe 'subscribe_author' do
+    let(:user) { create(:user) }
+    let(:question) { build(:question, user: user) }
+
+    it 'creates subscription' do
+      expect { question.save! }.to change(Subscription, :count).by(1)
+    end
+
+    it 'subscribes author' do
+      question.save!
+      subscription = Subscription.first
+      expect(subscription.subscribable_type).to eq('Question')
+      expect(subscription.subscribable_id).to eq(question.id)
+      expect(subscription.user).to eq(user)
+    end
+  end
 end
