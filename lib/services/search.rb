@@ -1,4 +1,4 @@
-class SearchService
+class Search
   TYPES = %w[Question Answer User Comment].freeze
 
   def self.call(query, scope = nil)
