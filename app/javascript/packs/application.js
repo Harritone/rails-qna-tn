@@ -5,6 +5,7 @@
 
 import Rails from '@rails/ujs';
 import Turbolinks from 'turbolinks';
+require('stylesheets/application.scss');
 import * as ActiveStorage from '@rails/activestorage';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap';
