@@ -1,12 +1,11 @@
-- cache comment do
-  .comment-card 
-    .card
-      .card-block
-        .row.p-2 
-          .col-sm-2
-            = comment.user.email
-          .col-sm-10
-            .text
-              = comment.content
-            .text-muted
-              = "posted #{distance_of_time_in_words(comment.created_at, Time.now)} ago"
+.comment-card 
+  .card
+    .card-block
+      .row.p-2 
+        .col-sm-2
+          = comment.user.email
+        .col-sm-10
+          .text
+            = comment.content
+          .text-muted
+            = "posted #{distance_of_time_in_words(comment.created_at, Time.now)} ago"
