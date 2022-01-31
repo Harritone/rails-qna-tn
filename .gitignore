@@ -35,4 +35,6 @@
 yarn-debug.log*
 .yarn-integrity
 /config/database.yml
+/config/*.sphinx.conf
+/db/sphinx
 .devcontainer
