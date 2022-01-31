@@ -35,6 +35,8 @@ module Qna
     config.autoload_paths << config.root.join('lib', 'services')
     config.autoload_paths << config.root.join('app')
     config.active_job.queue_adapter = :sidekiq
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
+    Rails.autoloaders.main.ignore(Rails.root.join('app/config/sphinxy.conf'))
 
     # Don't generate system test files.
     config.generators.system_tests = nil

@@ -1,19 +1,22 @@
-.question
-  =render question
+- cache question do
+  .question
+    =render question
 
-#answers.answers
-  =render 'answers/answers', resource: question
+  #answers.answers
+    =render 'answers/answers', resource: question
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
-= form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
-  .mb-3
-    = f.label :body, 'Your answer', class: 'form-label'
-    = f.text_area :body, rows: 10, class: 'form-control'
-  .mb-3 
-    = f.label :files, class: 'form-label'
-    = f.file_field :files, multiple: true, class: 'form-control'
-  = render 'shared/links_form', f: f
-  = f.submit 'Publish', class: 'btn btn-primary'
+  .answer-errors
+    = render 'shared/errors', resource: @answer
+
+- if current_user.present?
+  = form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
+    .mb-3
+      = f.label :body, 'Your answer', class: 'form-label'
+      = f.text_area :body, rows: 10, class: 'form-control'
+    .mb-3
+      = f.label :files, class: 'form-label'
+      = f.file_field :files, multiple: true, class: 'form-control'
+    = render 'shared/links_form', f: f
+    = f.submit 'Publish', class: 'btn btn-primary'
 
 =link_to 'Back', questions_path
