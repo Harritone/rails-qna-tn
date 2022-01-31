@@ -1,7 +1,8 @@
 - if can? :create, Question
 .row.my-2.col-2
   = link_to 'Ask question', new_question_path, class: 'btn btn-primary float-end'
-.row
-  #questions-list.list-group
-    - @questions.each do |question|
-      = render 'collection', question: question
+- cache collection_cache_key_for :question do
+  .row
+    #questions-list.list-group
+      - @questions.each do |question|
+        = render 'collection', question: question
