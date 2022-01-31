@@ -35,9 +35,17 @@ gem 'thinking-sphinx'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capybara', '~> 3.35', '>= 3.35.3'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
