@@ -27,25 +27,26 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 gem 'redis', '~> 4.5', '>= 4.5.1'
+gem 'redis-rails'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim-rails', '~> 3.3'
 gem 'thinking-sphinx'
 gem 'turbolinks', '~> 5'
+gem 'unicorn'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
-gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capistrano', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano3-unicorn', require: false
   gem 'capybara', '~> 3.35', '>= 3.35.3'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
